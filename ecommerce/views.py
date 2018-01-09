@@ -29,4 +29,21 @@ def hello_world(request):
 
 
 def home(request):
-    return render(request, "pages/home.html", {})
+    context = {
+        "title": "Home"
+    }
+    return render(request, "pages/home.html", context)
+
+
+def contact(request):
+    context = {
+        "title": "Contact"
+    }
+    return render(request, "pages/home.html", context)
+
+
+def about(request):
+    context = {
+        "title": "About"
+    }
+    return render(request, "pages/home.html", context)
