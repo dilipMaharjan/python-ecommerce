@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from .views import home, hello_world, about, contact
+from .views import home, hello_world, about, contact, login_page
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^home/', home),
     url(r'^about/', about),
     url(r'^contact/', contact),
+    url(r'^login/', login_page),
 ]

@@ -11,8 +11,20 @@
     <title>{{title}}</title>
 </head>
 <body>
-<div class="text-center">
-    <h1>Welcome to {{title}} page!</h1>
+<div class="container">
+    <h1 class="text-center">Welcome to {{title}} page!</h1>
+    {% if contact_form%}
+    <div class="row">
+        <div class="col">
+            <div class="col-sm-6 col-12">
+                <form method="post">{%csrf_token%}
+                    {{contact_form}}
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {%endif%}
 </div>
 <!-- jQuery first, then Tether, then Bootstrap JS. -->
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
