@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
 
@@ -12,6 +13,25 @@ class ProductListView(ListView):
 class ProductDetailView(DetailView):
     queryset = Product.objects.all()
     template_name = 'products/detail.html'
+
+
+class ProductDetailSlugView(DetailView):
+    queryset = Product.objects.all()
+    template_name = 'products/detail.html'
+
+    def get_object(self, *args, **kwargs):
+        request = self.request
+        slug = self.kwargs.get('slug')
+        try:
+            instance = Product.objects.get(slug=slug, active=True)
+        except Product.DoesNotExist:
+            raise Http404("Not Found.")
+        except Product.MultipleObjectsReturned:
+            instance = Product.objects.filter(slug=slug, active=True)
+            return instance.first()
+        except:
+            raise Http404('hmm....')
+        return instance
 
 
 class ProductFeaturedListView(ListView):
