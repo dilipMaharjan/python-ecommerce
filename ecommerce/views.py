@@ -45,14 +45,14 @@ def contact(request):
     }
     if contact_form.is_valid():
         print(contact_form.cleaned_data)
-    return render(request, "pages/home.html", context)
+    return render(request, "pages/contact.html", context)
 
 
 def about(request):
     context = {
         "title": "About"
     }
-    return render(request, "pages/home.html", context)
+    return render(request, "pages/about.html", context)
 
 
 def login_page(request):
