@@ -48,6 +48,9 @@ class Product(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return '{slug}'.format(slug=self.slug)
+
 
 def product_pre_save_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
