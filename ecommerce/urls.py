@@ -14,35 +14,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf import settings
+from django.conf.urls import url, include
 from django.conf.urls.static import static
-from django.conf.urls import url
 from django.contrib import admin
-from .views import home, hello_world, about, contact, login_page, register_page
-from products.views import (
-    product_list_view,
-    product_detail_view,
-    ProductListView,
-    ProductDetailView,
-    ProductFeaturedListView,
-    ProductFeaturedDetailView,
-    ProductDetailSlugView
-)
+from .views import hello_world, home, about, contact, login_page, register_page
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^hello/$', hello_world),
-    url(r'^$', home),
-    url(r'^about/$', about),
-    url(r'^contact/$', contact),
-    url(r'^login/$', login_page),
-    url(r'^register/$', register_page),
-    url(r'^product/$', ProductListView.as_view()),
-    # url(r'^products/(?P<pk>\d+)/$', ProductDetailView.as_view()),
-    url(r'^products/(?P<slug>[\w-]+)/$', ProductDetailSlugView.as_view(), name='detail'),
-    url(r'^featured/$', ProductFeaturedListView.as_view()),
-    url(r'^featured/(?P<pk>\d+)/$', ProductFeaturedDetailView.as_view()),
-    url(r'^products-fbv/$', product_list_view),
-    url(r'^products-fbv/(?P<pk>\d+)/$', product_detail_view),
+    url(r'^$', home, name='home'),
+    url(r'^about/$', about, name='about'),
+    url(r'^contact/$', contact, name='contact'),
+    url(r'^login/$', login_page, name='login'),
+    url(r'^register/$', register_page, name='register'),
+    url(r'^products/', include("products.urls", namespace='products')),
 ]
 
 if settings.DEBUG:

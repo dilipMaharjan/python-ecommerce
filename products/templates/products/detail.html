@@ -1,7 +1,8 @@
-<ul>
-    <li>{{object.title}}</li>
-    <li>{{object.description}}</li>
-    {% if object.image %}
-    <li>{{object.image.url}}</li>
-    {%endif %}
-</ul>
+{% extends 'base.html' %}
+{%block content%}
+<h1>{{object.title}}</h1>
+{{object.description|linebreaks}}
+{% if object.image %}
+<img src="{{object.image.url}}"/>
+{%endif %}
+{%endblock %}
