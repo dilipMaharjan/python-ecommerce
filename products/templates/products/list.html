@@ -1,17 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<ul>
-    {% for object in object_list%}
-    <a href="{{object.get_absolute_url}}">
-        <li>{{object.title}}</li>
-    </a>
-    {% endfor %}
-</ul>
-
-</body>
-</html>
+{% extends 'base.html' %}
+{% block content %}
+{% for object in object_list%}
+{% include 'products/snippets/card.html' with instance=object %}
+{% endfor %}
+{%endblock%}
