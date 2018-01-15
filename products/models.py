@@ -2,10 +2,11 @@ import os
 import random
 
 from django.db import models
+from django.db.models import Q
 from django.urls import reverse
 from django.db.models.signals import pre_save
 
-from .utils import unique_slug_generator
+from ecommerce.utils import unique_slug_generator
 
 
 def get_filename_ext(filepath):
@@ -34,6 +35,14 @@ class ProductManager(models.Manager):
             return qs.first()
         return None
 
+    def search(self, query):
+        lookup = (Q(title__icontains=query) |
+                  Q(description__icontains=query) |
+                  Q(price__icontains=query) |
+                  Q(tag__title__icontains=query)
+                  )
+        return self.filter(lookup).distinct()
+
 
 class Product(models.Model):
     title = models.CharField(max_length=120)
@@ -52,6 +61,9 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse('products:detail', kwargs={'slug': self.slug})
+
+    def search(self, query):
+        return self.get_quertset().active().search(query)
 
 
 def product_pre_save_receiver(sender, instance, *args, **kwargs):
