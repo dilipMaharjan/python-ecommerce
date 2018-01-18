@@ -107,4 +107,5 @@ venv.bak/
 .idea
 db.sqlite3
 /static_cdn/
-/products/migrations/
+*/migrations/
+
