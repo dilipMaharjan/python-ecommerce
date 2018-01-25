@@ -6,13 +6,7 @@ from products.models import Product
 
 def cart_home(request):
     cart, new_session = Cart.objects.get_session_or_create(request)
-    products = cart.products.all()
-    total = 0
-    for x in products:
-        total += x.price
-    cart.total = total
-    cart.save()
-    return render(request, 'carts/home.html', {})
+    return render(request, 'carts/home.html', {'cart': cart})
 
 
 def cart_update(request):
@@ -28,5 +22,7 @@ def cart_update(request):
             cart.products.remove(product_obj)
         else:
             cart.products.add(product_obj)
+
+        request.session['cart_items'] = cart.products.count()
     # return redirect(product_obj.get_absolute_url())
     return redirect('cart:home')
