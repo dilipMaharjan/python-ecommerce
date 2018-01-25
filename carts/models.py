@@ -22,7 +22,6 @@ class CartManager(models.Manager):
             cart = Cart.objects.new_session(user=request.user)
             new_session = True
             request.session['cart_id'] = cart.id
-
         return cart, new_session
 
     def new_session(self, user=None):
@@ -36,8 +35,8 @@ class CartManager(models.Manager):
 class Cart(models.Model):
     user = models.ForeignKey(User, null=True, blank=True)
     products = models.ManyToManyField(Product)
-    total = models.DecimalField(default=0.0, max_digits=100, decimal_places=2)
     subtotal = models.DecimalField(default=0.0, max_digits=100, decimal_places=2)
+    total = models.DecimalField(default=0.0, max_digits=100, decimal_places=2)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     objects = CartManager()
@@ -50,8 +49,8 @@ def m2m_changed_cart_receiver(sender, instance, action, *args, **kwargs):
     if action == 'post_add' or action == 'post_remove' or action == 'post_clear':
         products = instance.products.all()
         total = 0
-        for product in products:
-            total += product.price
+        for x in products:
+            total += x.price
         if instance.subtotal != total:
             instance.subtotal = total
             instance.save()
@@ -61,7 +60,10 @@ m2m_changed.connect(m2m_changed_cart_receiver, sender=Cart.products.through)
 
 
 def pre_save_cart_receiver(sender, instance, *args, **kwargs):
-    instance.total = instance.subtotal
+    if instance.subtotal > 0:
+        instance.total = instance.subtotal + 10
+    else:
+        instance.total = 0.00
 
 
 pre_save.connect(pre_save_cart_receiver, sender=Cart)

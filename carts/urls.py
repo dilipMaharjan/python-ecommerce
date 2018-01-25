@@ -2,10 +2,10 @@ from django.conf.urls import url
 
 from .views import (
     cart_home,
-    cat_update
+    cart_update
 )
 
 urlpatterns = [
     url(r'^$', cart_home, name='home'),
-    url(r'^update/$', cat_update, name='update'),
+    url(r'^update/$', cart_update, name='update'),
 ]
